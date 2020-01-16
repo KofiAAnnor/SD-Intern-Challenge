@@ -1,17 +1,18 @@
-from run import app, Intern, db
+from run import app, Intern
 import unittest
 from flask import json
 
 
 class Tests(unittest.TestCase):
-    def test_valid_get(self):
+
+    def test_valid_get_request(self):
         tester = app.test_client(self)
         response = tester.get('/', content_type='html/text')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Intern.query.all(), [])
         Intern.query.delete()
 
-    def test_valid_post(self):
+    def test_valid_post_request(self):
         tester = app.test_client(self)
         js = [{"first_name": "test1", "last_name": "Voss", "position":"Software Development Intern", "school": "UMCP",
                "degree_program": "Computer Science"}]
@@ -20,7 +21,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         Intern.query.delete()
 
-    def test_invalid_post(self):
+    def test_invalid_post_request(self):
         tester = app.test_client(self)
         js = [{"first_name": "test2", "last_name": "Voss", "position":"Software Intern", "school": "UMCP",
                "degree_program": "Computer Science"}]
@@ -29,7 +30,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
         Intern.query.delete()
 
-    def test_valid_post_multiple(self):
+    def test_valid_post_request_multiple(self):
         tester = app.test_client(self)
         js = [{"first_name": "test3", "last_name": "Voss", "position":"Software Development Intern", "school": "UMCP",
                "degree_program": "Computer Science"},
@@ -41,7 +42,7 @@ class Tests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         Intern.query.delete()
 
-    def test_valid_post_multiple(self):
+    def test_invalid_post_request_multiple(self):
         tester = app.test_client(self)
         js = [{"first_name": "test5", "last_name": "Voss", "position":"Software Development Intern", "school": "UMCP",
                "degree_program": "Computer Science"},

@@ -25,6 +25,7 @@ class Intern(db.Model):
         return jsonify({self.first_name, self.last_name, self.position, self.school, self.degree_program})
 
 
+# Initialize Database Table
 db.drop_all()
 db.create_all()
 db.session.commit()
@@ -59,6 +60,7 @@ def get_intern_data():
 # Serves GET and POST requests for API
 @app.route("/", methods=['GET', 'POST'])
 def index():
+    # Validate Position Before Adding Intern Application
     if request.method == 'POST':
         if not positions_are_valid(request.json):
             return "invalid position type\n", 400
@@ -81,6 +83,4 @@ def index():
 
 # Running application
 if __name__ == "__main__":
-    db.drop_all()
-    db.create_all()
     app.run(debug=True, host='0.0.0.0')
